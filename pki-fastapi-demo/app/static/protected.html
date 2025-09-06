@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Protected</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; }
+    .ok { color: #0a0; }
+    .bad { color: #a00; }
+    pre { background: #8881; padding: .5rem; border-radius: 6px; }
+    a { color: inherit; }
+    .card { border: 1px solid #8884; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+  <p><a href="/">← Back</a></p>
+  <div class="card">
+    <h1 id="status">Checking identity…</h1>
+    <div id="details"></div>
+  </div>
+  <script>
+    (async () => {
+      const statusEl = document.getElementById('status');
+      const details = document.getElementById('details');
+      try {
+        const res = await fetch('/api/me', { credentials: 'include' });
+        if (!res.ok) {
+          statusEl.className = 'bad';
+          statusEl.textContent = 'Identity not confirmed';
+          details.innerHTML = '<p>No valid client certificate was presented.</p>';
+          return;
+        }
+        const data = await res.json();
+        statusEl.className = 'ok';
+        statusEl.textContent = 'Identity confirmed';
+        const name = data.common_name || 'Unknown';
+        details.innerHTML = `<p>Welcome, <strong>${name}</strong></p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+      } catch (e) {
+        statusEl.className = 'bad';
+        statusEl.textContent = 'Identity not confirmed';
+        details.textContent = String(e);
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+
+# Environments
+.env
+.env.*
+.venv/
+venv/
+
+# Editors/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker
+*.pid
+*.pid.lock
+
+# Certificates and private keys (do NOT commit)
+# Entire generated certs folder
+pki-fastapi-demo/certs/
+
+# Catch-all for common cert/key extensions
+*.crt
+*.key
+*.csr
+*.pem
+*.pfx
+*.p12
+*.srl
+*.der
+*.cer
+
+# OpenSSL config artifacts
+*.ext
+
+# Node (just in case)
+node_modules/
